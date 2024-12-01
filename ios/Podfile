@@ -26,6 +26,8 @@ target 'demoapp' do
   target 'demoappTests' do
     inherit! :complete
     # Pods for testing
+        pod 'SmartPush-iOS-SDK', '~> 3.5.5'
+        pod 'Smartech-iOS-SDK' , '~> 3.5.3'
   end
 
   post_install do |installer|
@@ -56,5 +58,6 @@ target 'SmartechNCE' do
     pod 'SmartPush-iOS-SDK', '~> 3.5.5'
     pod 'Smartech-iOS-SDK' , '~> 3.5.3'
     pod 'SmartechNudges', '~> 9.0.8'
+    pod 'SmartechAppInbox-iOS-SDK', '~> 3.5.6'
   
 end

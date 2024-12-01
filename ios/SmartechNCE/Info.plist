@@ -19,9 +19,9 @@
 			<true/>
 			<key>UNNotificationExtensionCategory</key>
 			<array>
-				<string>SmartechPN</string>
-				<string>SmartechCarouselPortraitNotification</string>
 				<string>SmartechCarouselLandscapeNotification</string>
+				<string>SmartechCarouselPortraitNotification</string>
+				<string>SmartechCarouselFallbackNotification</string>
 			</array>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>

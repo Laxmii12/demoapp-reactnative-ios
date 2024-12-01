@@ -7,6 +7,8 @@
 #import <UserNotificationsUI/UserNotificationsUI.h>
 #import "SmartechBaseReactNative.h"
 #import "SmartechRCTEventEmitter.h"
+#import <React/RCTLinkingManager.h>
+#import <SmartechAppInbox/SmartechAppInbox.h>
 
 @interface AppDelegate () <UNUserNotificationCenterDelegate,SmartechDelegate>
 
@@ -23,12 +25,18 @@
   [UNUserNotificationCenter currentNotificationCenter].delegate = self;
   [[Smartech sharedInstance] initSDKWithDelegate:self withLaunchOptions:launchOptions];
   [[SmartPush sharedInstance] registerForPushNotificationWithDefaultAuthorizationOptions];
-  [[Smartech sharedInstance] setDebugLevel: SMTLogLevelVerbose];
+  [[Smartech sharedInstance] setDebugLevel:SMTLogLevelVerbose];
+
+
+  SMTAppInboxViewController  *appInboxController =
+  [[SmartechAppInbox sharedInstance] getAppInboxViewController];
+  
+  NSArray <SMTAppInboxCategoryModel *> *appInboxCategoryArray;
+  appInboxCategoryArray  = [[NSArray alloc] init];
+  appInboxCategoryArray = [[SmartechAppInbox sharedInstance] getAppInboxCategoryList];
+  
   
  
-  
-  
-  
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
@@ -36,7 +44,8 @@
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+- (void)application:(UIApplication *)application 
+                   :(NSData *)deviceToken {
   [[SmartPush sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
   
   
@@ -61,6 +70,17 @@
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+  NSDictionary *userInfo = response.notification.request.content.userInfo;
+      
+      // Extract the deeplink from smtPayload if it exists
+      NSDictionary *smtPayload = userInfo[@"smtPayload"];
+      NSString *deeplinkURL = smtPayload[@"deeplink"];
+      
+      if (deeplinkURL) {
+          // Convert the deeplink string to an NSURL and pass it to React Native's Linking Manager
+          NSURL *url = [NSURL URLWithString:deeplinkURL];
+          [RCTLinkingManager application:[UIApplication sharedApplication] openURL:url options:@{}];
+      }
   [[SmartPush sharedInstance] didReceiveNotificationResponse:response];
   
   completionHandler();

@@ -1,55 +1,131 @@
+// screens/LoginScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Button, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { NativeModules, NativeEventEmitter } from 'react-native';
-import SmartechReact from 'smartech-base-react-native';
-import SmartechPushReact from 'smartech-push-react-native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, Image } from 'react-native';
+import SmartechBaseReact from "smartech-base-react-native"
+import { NativeModules } from 'react-native';
+import SmartechAppInboxReact from 'smartech-appinbox-react-native'
 
-const LoginScreen = () => {
+
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const navigation = useNavigation();  // Access navigation object
 
-  const { SmartechReact } = NativeModules;
-  // const smartechEmitter = new NativeEventEmitter(SmartechReact);
-
-  useEffect(() => {
-    SmartechReact.addListener(SmartechReact.SmartechDeeplink, handleDeeplinkWithPayload);
-    console.log("SmartechReact",SmartechReact);
-    const handleDeeplinkWithPayload = (smartechData) => {
-      console.log('Smartech Data :: ', smartechData);
-      console.log('Smartech Deeplink :: ', smartechData.smtDeeplink);
-      console.log('Smartech CustomPayload:: ', smartechData.smtCustomPayload);
-    };
-
-    // Cleanup listener on unmount
-    return () => {
-      SmartechReact.removeListener(SmartechReact.SmartechDeeplink, handleDeeplinkWithPayload);
-    };
-  }, []);
+  const arr = []
+  const payloadata = {
+    name: "Login_Screenn",
+    description: "login into the app",
+    payload_id: "1",
+    event_id: 21
+  };
+ 
 
   const handleLogin = () => {
-    navigation.navigate('Home');
+    if (email && password) {
+      SmartechBaseReact.login("laxmimedli1999@gmail.com");
+      NativeModules.HanselUserRn.setUserId("laxmimedli1999@gmail.com");
+
+      navigation.navigate('Home');
+    } else {
+      alert('Please fill in all fields');
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Button title='Login' onPress={handleLogin} />
+      <Image source={require('../assets/stylelogo.jpg')} style={styles.logo} />
+      <Text style={styles.title}>Login</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        placeholderTextColor="#888"
+        onChangeText={setEmail}
+        value={email}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        placeholderTextColor="#888"
+        secureTextEntry
+        onChangeText={setPassword}
+        value={password}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+      <Text style={styles.forgotPassword}>Forgot Password?</Text>
+      <View style={styles.signupContainer}>
+        <Text style={styles.signupText}>Don't have an account? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+          <Text style={styles.signupLink}>Sign Up</Text>
+        
+
+        </TouchableOpacity>
+      </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-    gap: 60,
-    backgroundColor: '#f5f5f5',
+    paddingHorizontal: 32,
+    backgroundColor: '#F5F5F5',
   },
-  // Define other styles if needed
+  logo: {
+    width: 120,
+    height: 120,
+    borderRadius: 100,
+    alignSelf: 'center',
+    marginBottom: 40,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 24,
+    textAlign: 'center',
+    color: '#333',
+  },
+  input: {
+    height: 50,
+    borderColor: '#DDDDDD',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 16,
+    paddingHorizontal: 16,
+    backgroundColor: '#FFFFFF',
+    fontSize: 16,
+    color: '#333',
+  },
+  button: {
+    backgroundColor: 'black',
+    paddingVertical: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  forgotPassword: {
+    marginTop: 16,
+    color: '#007BFF',
+    textAlign: 'center',
+  },
+  signupContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 24,
+  },
+  signupText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  signupLink: {
+    fontSize: 16,
+    color: '#007BFF',
+    fontWeight: 'bold',
+  },
 });
-
-export default LoginScreen;
