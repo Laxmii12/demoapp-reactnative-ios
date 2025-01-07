@@ -28,7 +28,12 @@ const dresses = [
 const HomeScreen = () => {
   const navigation = useNavigation();  // To navigate to the dress details page
 
+
+
+
   useEffect(()=>{
+    SmartechBaseReact.login("Laxmeemedliswift");
+
 
 // Sample code for reference purpose only
 const payloadata = {

@@ -21,7 +21,7 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = () => {
     if (email && password) {
-      SmartechBaseReact.login("laxmimedli1999@gmail.com");
+      SmartechBaseReact.login("laxmimedli19999@gmail.com");
       NativeModules.HanselUserRn.setUserId("laxmimedli1999@gmail.com");
 
       navigation.navigate('Home');

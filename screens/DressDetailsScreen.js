@@ -8,6 +8,7 @@ import SmartechBaseReact from "smartech-base-react-native"
 
 const DressDetailsScreen = ({ route }) => {
   const { id } = route.params;
+  console.log();
 
   const payloadata = {
     name: "DressDetailsScreen",
@@ -52,11 +53,11 @@ const DressDetailsScreen = ({ route }) => {
 
   return (
     <View style={styles.container} >
-      {item.image && <Image source={item.image} style={styles.image} />}
+      {/* {item.image && <Image source={item.image} style={styles.image} />} */}
       
-      <Text style={styles.name}>{typeof item.name === 'string' ? item.name : 'Item Name'}</Text>
+      {/* <Text style={styles.name}>{typeof item.name === 'string' ? item.name : 'Item Name'}</Text> */}
 
-      <Text style={styles.price}>Price: ₹{item.price}</Text>
+      {/* <Text style={styles.price}>Price: ₹{item.price}</Text> */}
 
       <TouchableOpacity 
         style={styles.button} 

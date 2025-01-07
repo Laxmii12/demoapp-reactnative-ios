@@ -44,11 +44,8 @@
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
-- (void)application:(UIApplication *)application 
-                   :(NSData *)deviceToken {
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   [[SmartPush sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-  
-  
 }
 
 

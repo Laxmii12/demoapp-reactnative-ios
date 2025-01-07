@@ -23,20 +23,20 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string></string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string>com.netcore.SmartechApp</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>smartechapp</string>
+				<string>style</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>com.netcore.SmartechApp</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>smartechapp</string>

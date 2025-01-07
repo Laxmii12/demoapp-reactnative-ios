@@ -14,12 +14,17 @@ import Geolocation from '@react-native-community/geolocation';
 import SmartechBaseReact from "smartech-base-react-native"
 import SmartechPushReact from "smartech-push-react-native"
 import SmartechReact from 'smartech-base-react-native';
+import { useNavigation } from '@react-navigation/native';
+
 
 
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  // const navigation = useNavigation();
+
+
   const [
     currentLongitude,
     setCurrentLongitude
@@ -96,24 +101,15 @@ export default function App() {
       },
     );
   };
-  const linking = {
-    prefixes: ['myapp://', 'https://myapp.com'],
-    config: {
-      screens: {
-        Home: '',
-        DressDetails: 'details/:id', // Example deep link path with parameters
-        Cart: 'cart',
-      },
-    },
-  };
+
   const subscribeLocationLocation = () => {
     watchID = Geolocation.watchPosition(
       (position) => {
         //Will give you the location on location change
         
         setLocationStatus('You are Here');
-        console.log("position",position);
-        console.log("==>", position.coords.latitude, position.coords.longitude);
+        // console.log("position",position);
+        // console.log("==>", position.coords.latitude, position.coords.longitude);
         SmartechBaseReact.setUserLocation(position.coords.latitude, position.coords.longitude);
         // SmartechBaseReact.optTracking(true)
         // SmartechBaseReact.hasOptedTracking(function() {
@@ -151,8 +147,9 @@ export default function App() {
     );
   };
   const handleDeeplinkWithPayload = (smartechData) => {
-    console.log('Smartech Data :: ', smartechData);
+    console.log('Smartech Data :: ', smartechData.smtDeeplink);
     console.log('Smartech Deeplink :: ', smartechData.smtDeeplink);
+
     Linking.openURL(smartechData.smtDeeplink); // Open the deep link
 
     console.log('Smartech CustomPayload:: ', smartechData.smtCustomPayload);
@@ -167,9 +164,19 @@ export default function App() {
     };
   }, []);
 
-
+  const linking = {
+    prefixes: ['style://'],
+    config: {
+      screens: {
+        Home: 'Home',
+        DressDetails: 'DressDetails', // Example deep link path with parameters
+        Cart: 'Cart',
+      },
+    },
+  };
 return (
-    <NavigationContainer nativeID={'hansel_ignore_container'} linking={linking} fallback={<Text>Loading...</Text>}>
+    <NavigationContainer nativeID={'hansel_ignore_container'} linking={linking} onReady={() => console.log('Navigation is ready')}
+    onStateChange={(state) => console.log('Navigation state:', state)} fallback={<Text>Loading...</Text>}>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
@@ -177,69 +184,11 @@ return (
         <Stack.Screen name="Wishlist" component={WishlistScreen} />
         <Stack.Screen name="Cart" component={CartScreen} />
         <Stack.Screen name="AppInbox" component={AppInbox} />
-
-
       </Stack.Navigator>
     </NavigationContainer>
 
   );
 }
-{/* <SafeAreaView style={{flex: 1}}>
-      <View style={styles.container}>
-        <View style={styles.container}>
-          <Image
-            source={{
-              uri:
-                'https://raw.githubusercontent.com/AboutReact/sampleresource/master/location.png',
-            }}
-            style={{width: 100, height: 100}}
-          />
-          <Text style={styles.boldText}>
-            {locationStatus}
-          </Text>
-          <Text
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 16,
-            }}>
-            Longitude: {currentLongitude}
-          </Text>
-          <Text
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 16,
-            }}>
-            Latitude: {currentLatitude}
-          </Text>
-          <View style={{marginTop: 20}}>
-            <Button
-              title="Refresh"
-              onPress={getOneTimeLocation}
-            />
-          </View>
-        </View>
-        <Text
-          style={{
-            fontSize: 18,
-            textAlign: 'center',
-            color: 'grey'
-          }}>
-          React Native Geolocation
-        </Text>
-        <Text
-          style={{
-            fontSize: 16,
-            textAlign: 'center',
-            color: 'grey'
-          }}>
-          www.aboutreact.com
-        </Text>
-      </View>
-    </SafeAreaView> */}
-//   );
-// };
 
 const styles = StyleSheet.create({
   container: {
