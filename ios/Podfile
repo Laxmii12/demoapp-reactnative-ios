@@ -1,3 +1,4 @@
+
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
@@ -22,12 +23,21 @@ target 'demoapp' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
+  # Example Firebase dependencies
+  pod 'Firebase/Core', :modular_headers => true
+  pod 'Firebase/Messaging', :modular_headers => true
+  pod 'RNNotifee', :path => '../node_modules/@notifee/react-native'
+
+  pod 'Smartech-iOS-SDK' , '~> 3.5.3'
+
+  
 
   target 'demoappTests' do
     inherit! :complete
     # Pods for testing
-        pod 'SmartPush-iOS-SDK', '~> 3.5.5'
-        pod 'Smartech-iOS-SDK' , '~> 3.5.3'
+    pod 'Smartech-iOS-SDK' , '~> 3.5.3'
+    pod 'SmartPush-iOS-SDK', '~> 3.5.5'
+
   end
 
   post_install do |installer|
@@ -61,3 +71,4 @@ target 'SmartechNCE' do
     pod 'SmartechAppInbox-iOS-SDK', '~> 3.5.6'
   
 end
+

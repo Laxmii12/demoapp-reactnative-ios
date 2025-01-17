@@ -15,6 +15,10 @@ import SmartechBaseReact from "smartech-base-react-native"
 import SmartechPushReact from "smartech-push-react-native"
 import SmartechReact from 'smartech-base-react-native';
 import { useNavigation } from '@react-navigation/native';
+import notifee from '@notifee/react-native';
+
+
+
 
 
 
@@ -22,6 +26,11 @@ import { useNavigation } from '@react-navigation/native';
 const Stack = createStackNavigator();
 
 export default function App() {
+
+  async function onAppStart() {
+    await notifee.requestPermission();
+  }
+  onAppStart();
   // const navigation = useNavigation();
 
 

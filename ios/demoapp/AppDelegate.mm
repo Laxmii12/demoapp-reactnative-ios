@@ -1,14 +1,18 @@
 #import "AppDelegate.h"
 
 #import <React/RCTBundleURLProvider.h>
-#import <Smartech/Smartech.h>
-#import <SmartPush/SmartPush.h>
 #import <UserNotifications/UserNotifications.h>
 #import <UserNotificationsUI/UserNotificationsUI.h>
 #import "SmartechBaseReactNative.h"
 #import "SmartechRCTEventEmitter.h"
 #import <React/RCTLinkingManager.h>
+#import <Smartech/Smartech.h>
+#import <SmartPush/SmartPush.h>
 #import <SmartechAppInbox/SmartechAppInbox.h>
+#import <Firebase.h>
+
+
+
 
 @interface AppDelegate () <UNUserNotificationCenterDelegate,SmartechDelegate>
 
@@ -22,6 +26,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   
+//  [NotifeeBridge configure]; // Initialize Notifee
   [UNUserNotificationCenter currentNotificationCenter].delegate = self;
   [[Smartech sharedInstance] initSDKWithDelegate:self withLaunchOptions:launchOptions];
   [[SmartPush sharedInstance] registerForPushNotificationWithDefaultAuthorizationOptions];
@@ -41,6 +46,7 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
   self.moduleName = @"demoapp";
+  [FIRApp configure];
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 

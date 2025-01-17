@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';  // For navigation
 import { NativeModules } from 'react-native';
 import SmartechBaseReact from "smartech-base-react-native"
 import SmartechAppInboxReact from 'smartech-appinbox-react-native'
+import notifee from '@notifee/react-native';
 
 
 
@@ -51,11 +52,32 @@ function openAppInbox(){
   navigation.navigate('AppInbox');
 
 }
+//notifee
+async function onDisplayNotification() {
+  // Request permissions (required for iOS)
+  await notifee.requestPermission()
+
+
+await notifee.displayNotification({
+  title: 'Notification Title',
+  body: 'Main body content of the notification',
+  android: {
+    channelId,
+    smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+    // pressAction is needed if you want the notification to open the app when pressed
+    pressAction: {
+      id: 'default',
+    },
+  },
+});
+}
+
 
   return (
     <ScrollView style={styles.container} >
       <TouchableOpacity onPress={openAppInbox}>
       <Text style={{fontSize:20, fontWeight:"bold", color:"red"}}>  Notifications</Text>
+      <Button title="Display Notification by notifee" onPress={() => onDisplayNotification()} />      
 
       </TouchableOpacity>
       {/* Categories ScrollView */}
